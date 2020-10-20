@@ -39,6 +39,8 @@ def load_data():
 	listing["color_g"] = listing["color"].map(COLORS_G)
 	listing["color_b"] = listing["color"].map(COLORS_B)
 	listing["color_a"] = 140
+
+	listing['availability'] = listing.apply(lambda x : 'High' if x['availability_365'] > 60 else 'Low', axis=1)
 	return listing, review
 
 @st.cache
@@ -85,6 +87,42 @@ filtered_listing = df_listing[
     df_listing['neighbourhood_cleansed'].isin(neighbourhoods if neighbourhoods_selectbox == CITY else [neighbourhoods_selectbox])
     ]
 
+tooltip_html = """
+    <a href="{listing_url}">
+    <h3>{name}</h3>
+    </a>
+    <img src="{picture_url}" style="width:25%; height:25%;"/>
+    <table>
+        <tr>
+            <th>Room type:</th>
+            <td>{room_type}</td>
+        </tr>
+        <tr>
+            <th>Price:</th>
+            <td>${price}</td>
+        </tr>
+        <tr>
+            <th>Neighbourhood:</th>
+            <td>{neighbourhood_cleansed}</td>
+        </tr>
+        <tr>
+            <th>Accomodates:</th>
+            <td>{accommodates}</td>
+        </tr>
+        <tr>
+            <th>Availability:</th>
+            <td>{availability} ({availability_365}days/year)</td>
+        </tr>
+        <tr>
+            <th>Reviews:</th>
+            <td>{number_of_reviews}</td>
+        </tr>
+        <tr>
+            <th>Last Review:</th>
+            <td>{last_review}</td>
+        </tr>
+    </table>
+"""
 
 deck = pdk.Deck(
 	map_style='mapbox://styles/mapbox/light-v10',
@@ -111,8 +149,12 @@ deck = pdk.Deck(
     		 auto_highlight=True,
     		 get_radius=30,          # Radius is given in meters
     		 get_fill_color='[color_r, color_g, color_b, color_a]',  # Set an RGBA value for fill
-    		 pickable=True)
+    		 pickable=True,
+    		 )
      ],
+     tooltip={
+     		'html':tooltip_html,
+     		},
  )
 
 st.pydeck_chart(deck)
