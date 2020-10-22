@@ -157,4 +157,20 @@ deck = pdk.Deck(
      		},
  )
 
+ 
 st.pydeck_chart(deck)
+
+column = ["neighbourhood_cleansed","bedrooms","beds","review_scores_rating"]
+
+x_axis = st.selectbox(
+	'X Axis',
+	column)
+
+scatter = alt.Chart(filtered_listing).mark_point().encode(
+    alt.X(x_axis),
+    alt.Y("price"),
+    alt.Color("price")
+)
+
+
+st.write(scatter)
