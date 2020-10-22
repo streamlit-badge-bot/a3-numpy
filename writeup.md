@@ -27,6 +27,6 @@ TODO: **A rationale for your design decisions.** How did you choose your particu
 
 We first schedual a meeting to discuss what data we want to investigate, and we both find that Airbnb data is very interesting. Then it took us about an hour to briefly discuss the design our application, including the visualization encoding of each categories of data and different sections of our webpage. 
 
-Andong: I was in charge of the scatter plots at the bottom of the webpage, and I made some final polishing for the UI. It took me about 10 hours to develop the application. 
+For this development of the webpage,  Zixuan was in charge of the data filter structure and the map visualization, and Andong was in charge of the scatter plot visualization and the price estimation. The total time we spent on this project is about 30 people-hours. 
 
 TODO: **An overview of your development process.** Describe how the work was split among the team members. Include a commentary on the development process, including answers to the following questions: Roughly how much time did you spend developing your application (in people-hours)? What aspects took the most time?
