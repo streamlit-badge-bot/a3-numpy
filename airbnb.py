@@ -50,17 +50,15 @@ def load_geojson_data():
 
 df_listing, df_review = load_data()
 
-
-st.write("Let's look at raw data in the Pandas Data Frame.")
-
-st.dataframe(df_listing.head())
+if st.checkbox("Show Raw Data"):
+    st.dataframe(df_listing.head())
 
 geodata = load_geojson_data()
 
 
-st.write("Here's the location of those listings.")
+st.header("Filter Settings")
 
-midpoint = (np.average(df_listing['longitude']), np.average(df_listing['latitude']))
+# midpoint = (np.average(df_listing['longitude']), np.average(df_listing['latitude']))
 
 stats = geodata.merge(df_listing, 'left', 'neighbourhood')
 
@@ -86,6 +84,13 @@ filtered_listing = df_listing[
     df_listing['price'].between(price_range[0], price_range[1]) &
     df_listing['neighbourhood_cleansed'].isin(neighbourhoods if neighbourhoods_selectbox == CITY else [neighbourhoods_selectbox])
     ]
+
+if st.checkbox("Show Filtered Data"):
+    data_num = st.text_input("Number of data (Max 30)", 5)
+    data_num = min(int(data_num),30)
+    st.dataframe(df_listing.head(data_num))
+
+midpoint = (np.average(filtered_listing['longitude']), np.average(filtered_listing['latitude']))
 
 tooltip_html = """
     <a href="{listing_url}">
@@ -157,20 +162,43 @@ deck = pdk.Deck(
      		},
  )
 
- 
+
+st.header("Map Visualization")
+
 st.pydeck_chart(deck)
 
-column = ["neighbourhood_cleansed","bedrooms","beds","review_scores_rating"]
+st.header("Scatter Visualization of Price")
 
-x_axis = st.selectbox(
-	'X Axis',
-	column)
+column = ["neighbourhood_cleansed","bedrooms","beds","review_scores_rating"]
+x_axis = st.selectbox('X Axis',column)
+
+color_list = ["room_type", "neighbourhood_cleansed", "bedrooms", "review_scores_rating"]
+scatter_color = st.selectbox('Color', color_list)
 
 scatter = alt.Chart(filtered_listing).mark_point().encode(
     alt.X(x_axis),
     alt.Y("price"),
-    alt.Color("price")
+    alt.Color(scatter_color)
 )
 
-
 st.write(scatter)
+
+st.header("Price Estimation")
+st.write("Please provide the room type, location and the number of bedrooms")
+est_list = ["room_type", "neighbourhood_cleansed", "bedrooms"]
+est_room_type = st.selectbox('Room Type', df_listing['room_type'].unique())
+est_neigh = st.selectbox('Location', df_listing['neighbourhood_cleansed'].unique())
+est_bed = st.selectbox('Number of Bedroom', df_listing['bedrooms'].unique())
+
+# kNN algorithm, take average for tie-break
+est_listing = df_listing[
+    df_listing['room_type'].isin([est_room_type]) &
+    df_listing['bedrooms'].isin([est_bed]) &
+    df_listing['neighbourhood_cleansed'].isin(neighbourhoods if est_neigh == CITY else [est_neigh])
+    ]
+
+est_price = int(est_listing["price"].mean())
+if est_price==0:
+    st.write("Fail to estimate the price.")
+else:
+    st.write("The estimation price is: $"+str(est_price)+" per night.")
