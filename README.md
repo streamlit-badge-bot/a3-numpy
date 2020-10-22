@@ -1,6 +1,6 @@
 # CMU Interactive Data Science Assigment 3
 
-* **Team members**: zixuanze and ajing
+* **Team members**: Zixuan Zeng(zixuanze) and Andong Jing(ajing)
 * **Online URL**: https://s4a.streamlit.io/cmu-ids-2020/a3-template/master/streamlit_app.py/+/
 
 ## Instructions
