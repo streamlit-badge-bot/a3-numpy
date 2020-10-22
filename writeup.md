@@ -19,7 +19,9 @@ TODO: **A clear description of the goals of your project.** Describe the questio
 
 We had a brief discussion on the factors which could affect the pricing of a house. We believe that there are several factors which would affect the price the most:  room type, location, number of bedrooms, review ratings.
 
-We both agree that the map is the best way to visualize the location of the houses, and we need graphs to display the relationship between price and other data. For the graph, we both agree that scatter plot would show the correlation best. 
+We both agree that the map is the best way to visualize the location of the houses, and we need graphs to display the relationship between price and other data. For the graph, we both agree that scatter plot is the best way to show the correlations. 
+
+We also have a price estimation tool which use k-nn algorithm to estimate the price of the room, which would be very helpful for the users.
 
 TODO: **A rationale for your design decisions.** How did you choose your particular visual encodings and interaction techniques? What alternatives did you consider and how did you arrive at your ultimate choices?
 
