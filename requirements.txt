@@ -1,7 +1,7 @@
-streamlit
-pandas
-altair
-pydeck
-bumpy
-geopandas
-plotly
+pandas==1.0.3
+streamlit==0.69.2
+plotly==4.7.1
+altair==4.1.0
+pydeck==0.5.0b1
+geopandas==0.8.1
+numpy==1.18.4
