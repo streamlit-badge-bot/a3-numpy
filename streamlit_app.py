@@ -3,7 +3,7 @@ import pandas as pd
 import altair as alt
 import pydeck as pdk
 import numpy as np
-import geopandas as gp
+# import geopandas as gp
 import plotly.express as px
 
 
